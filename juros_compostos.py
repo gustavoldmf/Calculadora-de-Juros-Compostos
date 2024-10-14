@@ -41,11 +41,11 @@ def Calcula_Total_Mensal(valor_inicial,taxa, aporte, num_meses):
         lista[item] = y_n(valor_inicial,taxa,aporte,item)
 
 #função que obtem o total de Dinheiro aplicado e juros de rendimento
-def Resultado_investimento(num_meses,aporte_mensal):
+def Resultado_investimento(num_meses,aporte_mensal, valor_inicial):
     global Juros_total
     global Total_investido
     Total_investido = num_meses*aporte_mensal
-    Juros_total = lista[num_meses] - Total_investido
+    Juros_total = lista[num_meses] - Total_investido - valor_inicial
     return 0
 
 
@@ -53,18 +53,17 @@ print("Seja bem vindo ao meu protótipo de Calculadora de Juros\n")
 print("Aqui é possível fazer um projeção financeira com capital inicial, aportes mensais e rentabilidade\n")
 print("Após preencher os dados será calculado o total investido, juros acumulados e um gráfico evolutivo\n")
 
-entrada = [None]*4
-entrada[0] = int(input("Digite o valor inicial: "))
-entrada[1] = int(input("Digite a rentabidade do investimento em porcento por mes: "))
-entrada[2] = int(input("Digite o valor dos aportes mensais: "))
-entrada[3] = int(input("Digite durante quantos meses o dinheiro será investido: "))
+valor_inicial = float(input("Digite o valor inicial: "))
+rent_porcent = float(input("Digite a rentabidade do investimento em porcento por mes: "))
+aporte_mensal = int(input("Digite o valor dos aportes mensais: "))
+tempo_meses = int(input("Digite durante quantos meses o dinheiro será investido: "))
 
 
-Calcula_Total_Mensal(entrada[0],entrada[1],entrada[2],entrada[3])
-Resultado_investimento(12,200)
+Calcula_Total_Mensal(valor_inicial,rent_porcent,aporte_mensal,tempo_meses)
+Resultado_investimento(tempo_meses,aporte_mensal, valor_inicial)
 
 print(f"\n\nTotal de Dinheiro Aplicado: R${Total_investido:.2f}",f"\nJuros Totais: R${Juros_total:.2f}")
-print(f"Valor Final da Reserva: R${(Total_investido+Juros_total):.2f}")
+print(f"Valor Final da Reserva: R${(Total_investido+Juros_total+valor_inicial):.2f}")
 
 
 # Criar os gráficos
@@ -83,6 +82,15 @@ plt.axvline(0, color='black',linewidth=0.5, ls='--')  # Linha do eixo y
 
 # Ajustar layout e mostrar o gráfico
 plt.tight_layout()
-plt.show()
+
+gera_graf = input("\nDeseja gerar um gráfico de evolução da sua aplicação: Yes[s]/No[n] ")
+if(gera_graf == "s" or gera_graf == "S"):
+    plt.show()
+
+elif(gera_graf == "n" or gera_graf == "N"):
+    print("Operação finalizada!")
+
+else:
+    print("Formato inválido")
 
 
